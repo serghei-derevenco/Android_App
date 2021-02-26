@@ -3,25 +3,67 @@ package com.example.android_app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
-import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Toolbar
+import com.example.android_app.databinding.ActivityMainBinding
+import com.mikepenz.materialdrawer.AccountHeader
+import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mBinding: ActivityMainBinding
+    private lateinit var mDrawer: Drawer
+    private lateinit var mHeader: AccountHeader
+    private lateinit var mToolbar: androidx.appcompat.widget.Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
+    }
 
-        // show edited data, if it exists
-        if(intent.hasExtra("edited data")) {
-            val edited_data = intent.getStringExtra("edited data").toString()
-            recieved_data.setText(edited_data)
-        }
+    override fun onStart() {
+        super.onStart()
+        initFields()
+        initFunc()
+    }
 
-        // send data to second screen
-        send_btn.setOnClickListener {
-            val input = input_data.text.toString()
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("data", input)
-            startActivity(intent)
-        }
+    private fun initFunc() {
+        setSupportActionBar(mToolbar)
+        createHeader()
+        createDrawer()
+    }
+
+    private fun createDrawer() {
+        mDrawer = DrawerBuilder()
+            .withActivity(this)
+            .withToolbar(mToolbar)
+            .withActionBarDrawerToggle(true)
+            .withSelectedItem(-1)
+            .withAccountHeader(mHeader)
+            .addDrawerItems(
+                PrimaryDrawerItem().withIdentifier(100)
+                    .withIconTintingEnabled(true)
+                    .withName("New Group")
+                    .withSelectable(false)
+            ).build()
+    }
+
+    private fun createHeader() {
+        mHeader = AccountHeaderBuilder()
+            .withActivity(this)
+            .withHeaderBackground(R.drawable.header)
+            .addProfiles(
+                ProfileDrawerItem().withName("Serghei Derevenco")
+                    .withEmail("+37377777777")
+            ).build()
+    }
+
+    private fun initFields() {
+        mToolbar = mBinding.mainToolbar
     }
 }
