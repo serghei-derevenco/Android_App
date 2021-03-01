@@ -3,12 +3,15 @@ package com.example.android_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.multidex.MultiDexApplication
 import com.example.android_app.activities.RegisterActivity
 import com.example.android_app.databinding.ActivityMainBinding
 import com.example.android_app.ui.fragments.ChatsFragment
 import com.example.android_app.ui.objects.AppDrawer
+import com.example.android_app.utilits.AUTH
 import com.example.android_app.utilits.replaceActivity
 import com.example.android_app.utilits.replaceFragment
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +33,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
-        if (false) {
+        if (AUTH.currentUser != null) {
             setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment())
+            replaceFragment(ChatsFragment(), false)
         } else {
             replaceActivity(RegisterActivity())
         }
@@ -42,5 +45,6 @@ class MainActivity : AppCompatActivity() {
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer(this, mToolbar)
+        AUTH = FirebaseAuth.getInstance()
     }
 }
