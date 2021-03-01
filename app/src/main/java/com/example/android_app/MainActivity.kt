@@ -1,10 +1,14 @@
 package com.example.android_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.android_app.activities.RegisterActivity
 import com.example.android_app.databinding.ActivityMainBinding
 import com.example.android_app.ui.fragments.ChatsFragment
 import com.example.android_app.ui.objects.AppDrawer
+import com.example.android_app.utilits.replaceActivity
+import com.example.android_app.utilits.replaceFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,11 +30,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
-        setSupportActionBar(mToolbar)
-        mAppDrawer.create()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.dataContainer, ChatsFragment()).commit()
-
+        if (false) {
+            setSupportActionBar(mToolbar)
+            mAppDrawer.create()
+            replaceFragment(ChatsFragment())
+        } else {
+            replaceActivity(RegisterActivity())
+        }
     }
 
     private fun initFields() {

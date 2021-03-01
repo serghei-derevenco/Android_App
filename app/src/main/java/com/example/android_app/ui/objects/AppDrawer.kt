@@ -4,6 +4,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_app.R
 import com.example.android_app.ui.fragments.SettingsFragment
+import com.example.android_app.utilits.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -78,9 +79,7 @@ class AppDrawer(val mainActivity: AppCompatActivity, val toolbar: androidx.appco
                     drawerItem: IDrawerItem<*>
                 ): Boolean {
                     when(position) {
-                        6 -> mainActivity.supportFragmentManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.dataContainer, SettingsFragment()).commit()
+                        6 -> mainActivity.replaceFragment(SettingsFragment())
                     }
                     return false
                 }
