@@ -9,6 +9,7 @@ import com.example.android_app.databinding.ActivityMainBinding
 import com.example.android_app.ui.fragments.ChatsFragment
 import com.example.android_app.ui.objects.AppDrawer
 import com.example.android_app.utilits.AUTH
+import com.example.android_app.utilits.initFirebase
 import com.example.android_app.utilits.replaceActivity
 import com.example.android_app.utilits.replaceFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var mAppDrawer: AppDrawer
+    lateinit var mAppDrawer: AppDrawer
     private lateinit var mToolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +46,6 @@ class MainActivity : AppCompatActivity() {
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer(this, mToolbar)
-        AUTH = FirebaseAuth.getInstance()
+        initFirebase()
     }
 }

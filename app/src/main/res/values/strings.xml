@@ -19,4 +19,5 @@
     <string name="register_hint_default_code">- - - - - -</string>
     <string name="register_title_your_phone">Your phone</string>
     <string name="register_toast_enter_phone">Enter your phone number</string>
+    <string name="register_phone_hint">XXX-XXX-XXX</string>
 </resources>
