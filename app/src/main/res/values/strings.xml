@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Android_App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_default_username">User</string>
+    <string name="settings_default_status">Online</string>
+    <string name="settings_text_account">Account</string>
+    <string name="settings_default_number">777777777</string>
+    <string name="settings_label_phone_number">Tap to change phone number</string>
+    <string name="settings_default_login">None</string>
+    <string name="settings_label_login">Username</string>
+    <string name="settings_default_bio">Bio</string>
+    <string name="settings_label_bio">Add a few words about yourself</string>
+    <string name="settings_menu_change_name">Edit name</string>
+    <string name="settings_menu_exit">Log out</string>
 </resources>

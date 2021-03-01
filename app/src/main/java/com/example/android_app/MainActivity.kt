@@ -2,26 +2,15 @@ package com.example.android_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.content.Intent
-import android.view.View
-import android.widget.Toast
-import android.widget.Toolbar
 import com.example.android_app.databinding.ActivityMainBinding
-import com.mikepenz.materialdrawer.AccountHeader
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
-import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
-import com.mikepenz.materialdrawer.model.DividerDrawerItem
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import com.example.android_app.ui.fragments.ChatsFragment
+import com.example.android_app.ui.objects.AppDrawer
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var mDrawer: Drawer
-    private lateinit var mHeader: AccountHeader
+    private lateinit var mAppDrawer: AppDrawer
     private lateinit var mToolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,82 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFunc() {
         setSupportActionBar(mToolbar)
-        createHeader()
-        createDrawer()
-    }
+        mAppDrawer.create()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.dataContainer, ChatsFragment()).commit()
 
-    private fun createDrawer() {
-        mDrawer = DrawerBuilder()
-            .withActivity(this)
-            .withToolbar(mToolbar)
-            .withActionBarDrawerToggle(true)
-            .withSelectedItem(-1)
-            .withAccountHeader(mHeader)
-            .addDrawerItems(
-                PrimaryDrawerItem().withIdentifier(100)
-                    .withIconTintingEnabled(true)
-                    .withName("New Group")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_create_groups),
-                PrimaryDrawerItem().withIdentifier(101)
-                    .withIconTintingEnabled(true)
-                    .withName("Contacts")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_contacts),
-                PrimaryDrawerItem().withIdentifier(102)
-                    .withIconTintingEnabled(true)
-                    .withName("Calls")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_phone),
-                PrimaryDrawerItem().withIdentifier(103)
-                    .withIconTintingEnabled(true)
-                    .withName("People Nearby")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_create_groups),
-                PrimaryDrawerItem().withIdentifier(104)
-                    .withIconTintingEnabled(true)
-                    .withName("Saved Messages")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_favorites),
-                PrimaryDrawerItem().withIdentifier(105)
-                    .withIconTintingEnabled(true)
-                    .withName("Settings")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_settings),
-                DividerDrawerItem(),
-                PrimaryDrawerItem().withIdentifier(106)
-                    .withIconTintingEnabled(true)
-                    .withName("Invite Friends")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_invate),
-                PrimaryDrawerItem().withIdentifier(105)
-                    .withIconTintingEnabled(true)
-                    .withName("App FAQ")
-                    .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_help),
-            ).withOnDrawerItemClickListener(object :Drawer.OnDrawerItemClickListener {
-                override fun onItemClick(
-                    view: View?,
-                    position: Int,
-                    drawerItem: IDrawerItem<*>
-                ): Boolean {
-                    Toast.makeText(applicationContext, position.toString(), Toast.LENGTH_SHORT).show()
-                    return false
-                }
-            }).build()
-    }
-
-    private fun createHeader() {
-        mHeader = AccountHeaderBuilder()
-            .withActivity(this)
-            .withHeaderBackground(R.drawable.header)
-            .addProfiles(
-                ProfileDrawerItem().withName("User")
-                    .withEmail("777777777")
-            ).build()
     }
 
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
+        mAppDrawer = AppDrawer(this, mToolbar)
     }
 }
