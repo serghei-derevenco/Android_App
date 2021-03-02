@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
-            android:text="@string/settings_default_username"
+            tools:text="@string/settings_default_username"
             android:textSize="@dimen/normalText"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/horizontal_margin"
@@ -42,10 +42,11 @@
             android:layout_marginLeft="@dimen/horizontal_margin"/>
 
         <TextView
+            android:id="@+id/settings_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccentDark"
-            android:text="@string/settings_default_status"
+            tools:text="@string/settings_default_status"
             android:textSize="@dimen/smallText"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/horizontal_margin"
@@ -82,7 +83,7 @@
             android:id="@+id/settings_phone_number"
             app:layout_constraintTop_toTopOf="@id/settings_btn_change_number_phone"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/settings_default_number"
+            tools:text="@string/settings_default_number"
             style="@style/normalText" />
 
         <TextView
@@ -114,7 +115,7 @@
             android:id="@+id/settings_username"
             app:layout_constraintTop_toTopOf="@id/settings_btn_change_username"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/settings_default_login"
+            tools:text="@string/settings_default_login"
             style="@style/normalText" />
 
         <TextView
@@ -146,7 +147,7 @@
             android:id="@+id/settings_bio"
             app:layout_constraintTop_toTopOf="@id/settings_btn_change_bio"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/settings_default_bio"
+            tools:text="@string/settings_default_bio"
             style="@style/normalText" />
 
         <TextView
