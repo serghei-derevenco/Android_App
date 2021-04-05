@@ -1,8 +1,11 @@
 package com.example.android_app.utilits
 
 import android.net.Uri
+import android.provider.ContactsContract
+import com.example.android_app.models.CommonModel
 import com.example.android_app.models.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -16,6 +19,8 @@ lateinit var USER: User
 
 const val NODE_USERS = "users"
 const val NODE_USERNAMES = "usernames"
+const val NODE_PHONES = "phones"
+const val NODE_PHONE_CONTACTS = "phone contacts"
 
 const val FOLDER_PROFILE_IMAGE = "profile_image"
 
@@ -64,3 +69,46 @@ inline fun initUser(crossinline function: () -> Unit) {
             function()
         })
 }
+
+fun initContacts() {
+    if (checkPermission(READ_CONTACTS)) {
+        val arrayContacts = arrayListOf<CommonModel>()
+        val cursor = APP_ACTIVITY.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
+        cursor?.let {
+            while (it.moveToNext()) {
+                val fullname = it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phone = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val newModel = CommonModel()
+                newModel.fullname = fullname
+                newModel.phone = phone.replace(Regex("[\\s,-]"), "")
+                arrayContacts.add(newModel)
+            }
+        }
+        cursor?.close()
+        updatePhonesToDatabase(arrayContacts)
+    }
+}
+
+fun updatePhonesToDatabase(arrayContacts: ArrayList<CommonModel>) {
+    REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(AppValueEventListener {
+        it.children.forEach{ snapshot ->
+            arrayContacts.forEach { contact ->
+                if (snapshot.key == contact.phone) {
+                    REF_DATABASE_ROOT.child(NODE_PHONE_CONTACTS).child(CURRENT_UID)
+                        .child(snapshot.value.toString()).child(CHILD_ID)
+                        .setValue(snapshot.value.toString())
+                        .addOnFailureListener{ showToast(it.message.toString()) }
+                }
+            }
+        }
+    })
+}
+
+fun DataSnapshot.getCommonModel(): CommonModel =
+    this.getValue(CommonModel::class.java) ?: CommonModel()
