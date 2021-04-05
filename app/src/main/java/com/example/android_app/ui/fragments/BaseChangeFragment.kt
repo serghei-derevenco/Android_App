@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.android_app.MainActivity
 import com.example.android_app.R
 import com.example.android_app.utilits.APP_ACTIVITY
+import com.example.android_app.utilits.hideKeyboard
 
 
 open class BaseChangeFragment (layout: Int) : Fragment(layout) {
@@ -18,7 +19,7 @@ open class BaseChangeFragment (layout: Int) : Fragment(layout) {
 
     override fun onStop() {
         super.onStop()
-        APP_ACTIVITY.hideKeyboard()
+        hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
