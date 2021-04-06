@@ -1,6 +1,6 @@
 package com.example.android_app.models
 
-data class User(
+data class UserModel(
     val id: String = "",
     var username: String = "",
     var bio: String = "",

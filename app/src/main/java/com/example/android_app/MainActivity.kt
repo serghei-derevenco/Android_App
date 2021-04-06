@@ -1,23 +1,16 @@
 package com.example.android_app
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.example.android_app.activities.RegisterActivity
 import com.example.android_app.databinding.ActivityMainBinding
-import com.example.android_app.models.User
 import com.example.android_app.ui.fragments.ChatsFragment
 import com.example.android_app.ui.objects.AppDrawer
 import com.example.android_app.utilits.*
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
