@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_app.R
 import com.example.android_app.models.CommonModel
+import com.example.android_app.ui.fragments.single_chat.SingleChatFragment
 import com.example.android_app.utilits.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions

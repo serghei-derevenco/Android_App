@@ -4,9 +4,9 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import com.example.android_app.activities.RegisterActivity
 import com.example.android_app.databinding.ActivityMainBinding
-import com.example.android_app.ui.fragments.ChatsFragment
+import com.example.android_app.ui.fragments.MainFragment
+import com.example.android_app.ui.fragments.register.EnterPhoneNumberFragment
 import com.example.android_app.ui.objects.AppDrawer
 import com.example.android_app.utilits.*
 import kotlinx.coroutines.CoroutineScope
@@ -36,12 +36,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
+        setSupportActionBar(mToolbar)
         if (AUTH.currentUser != null) {
-            setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment(), false)
+            replaceFragment(MainFragment(), false)
         } else {
-            replaceActivity(RegisterActivity())
+            replaceFragment(EnterPhoneNumberFragment(), false)
         }
     }
 

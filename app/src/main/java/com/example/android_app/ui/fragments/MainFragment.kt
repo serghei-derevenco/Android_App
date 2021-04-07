@@ -5,10 +5,11 @@ import com.example.android_app.R
 import com.example.android_app.utilits.APP_ACTIVITY
 
 
-class ChatsFragment : Fragment(R.layout.fragment_chats) {
+class MainFragment : Fragment(R.layout.fragment_chats) {
 
     override fun onResume() {
         super.onResume()
-        APP_ACTIVITY.title = "Chats"
+        APP_ACTIVITY.title = "Telegram"
+        APP_ACTIVITY.mAppDrawer.enableDrawer()
     }
 }
