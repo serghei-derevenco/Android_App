@@ -3,15 +3,14 @@ package com.example.android_app.ui.fragments.single_chat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_app.R
 import com.example.android_app.models.CommonModel
-import com.example.android_app.utilits.CURRENT_UID
-import com.example.android_app.utilits.DiffUtilCallback
-import com.example.android_app.utilits.asTime
+import com.example.android_app.utilits.*
 import kotlinx.android.synthetic.main.message_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,16 +18,23 @@ import java.util.*
 class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 
     private var mListMessagesCache = mutableListOf<CommonModel>()
-    private lateinit var mDiffResult: DiffUtil.DiffResult
 
     class SingleChatHolder(view: View): RecyclerView.ViewHolder(view) {
+        // Text
         val blocUserMessage: ConstraintLayout = view.bloc_user_message
         val chatUserMessage: TextView = view.chat_user_message
         val chatUserMessageTime: TextView = view.chat_user_message_time
-
         val blocReceivedMessage: ConstraintLayout = view.bloc_received_message
         val chatReceivedMessage: TextView = view.chat_received_message
         val chatReceivedMessageTime: TextView = view.chat_received_message_time
+
+        // Image
+        val blocUserImageMessage: ConstraintLayout = view.bloc_user_image_message
+        val chatUserImage: ImageView = view.chat_user_image
+        val chatUserImageMessageTime: TextView = view.chat_user_image_message_time
+        val blocReceivedImageMessage: ConstraintLayout = view.bloc_received_image_message
+        val chatReceivedImage: ImageView = view.chat_received_image
+        val chatReceivedImageMessageTime: TextView = view.chat_received_image_message_time
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleChatHolder {
@@ -37,6 +43,16 @@ class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder
     }
 
     override fun onBindViewHolder(holder: SingleChatHolder, position: Int) {
+        when(mListMessagesCache[position].type) {
+            TYPE_MESSAGE_TEXT -> drawMessageText(holder, position)
+            TYPE_MESSAGE_IMAGE -> drawMessageImage(holder, position)
+        }
+    }
+
+    private fun drawMessageText(holder: SingleChatAdapter.SingleChatHolder, position: Int) {
+        holder.blocUserImageMessage.visibility = View.GONE
+        holder.blocReceivedImageMessage.visibility = View.GONE
+
         if (mListMessagesCache[position].from == CURRENT_UID) {
             holder.blocUserMessage.visibility = View.VISIBLE
             holder.blocReceivedMessage.visibility = View.GONE
@@ -47,6 +63,23 @@ class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder
             holder.blocReceivedMessage.visibility = View.VISIBLE
             holder.chatReceivedMessage.text = mListMessagesCache[position].text
             holder.chatReceivedMessageTime.text = mListMessagesCache[position].timeStamp.toString().asTime()
+        }
+    }
+
+    private fun drawMessageImage(holder: SingleChatAdapter.SingleChatHolder, position: Int) {
+        holder.blocUserMessage.visibility = View.GONE
+        holder.blocReceivedMessage.visibility = View.GONE
+
+        if (mListMessagesCache[position].from == CURRENT_UID) {
+            holder.blocUserImageMessage.visibility = View.VISIBLE
+            holder.blocReceivedImageMessage.visibility = View.GONE
+            holder.chatUserImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatUserImageMessageTime.text = mListMessagesCache[position].timeStamp.toString().asTime()
+        } else {
+            holder.blocUserImageMessage.visibility = View.GONE
+            holder.blocReceivedImageMessage.visibility = View.VISIBLE
+            holder.chatReceivedImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatReceivedImageMessageTime.text = mListMessagesCache[position].timeStamp.toString().asTime()
         }
     }
 
