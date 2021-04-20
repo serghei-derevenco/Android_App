@@ -1,7 +1,10 @@
 package com.example.android_app.ui.fragments.single_chat
 
 import android.view.View
+import android.widget.AbsListView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.android_app.R
 import com.example.android_app.models.CommonModel
 import com.example.android_app.models.UserModel
@@ -22,30 +25,79 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
     private lateinit var mRefMessages: DatabaseReference
     private lateinit var mAdapter: SingleChatAdapter
     private lateinit var mRecycleView: RecyclerView
-    private lateinit var mMessagesListener: AppValueEventListener
-    private var mListMessages = emptyList<CommonModel>()
+    private lateinit var mMessagesListener: AppChildEventListener
+    private var mCountMessages = 10
+    private var mIsScrolling = false
+    private var mSmoothScrollToPosition = true
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mLayoutManager: LinearLayoutManager
 
     override fun onResume() {
         super.onResume()
+        initFields()
         initToolbar()
         initRecycleView()
+    }
+
+    private fun initFields() {
+        mSwipeRefreshLayout = chat_swipe_refresh
+        mLayoutManager = LinearLayoutManager(this.context)
     }
 
     private fun initRecycleView() {
         mRecycleView = chat_recycle_view
         mAdapter = SingleChatAdapter()
-        mRefMessages = REF_DATABASE_ROOT.child(NODE_MESSAGES)
+        mRefMessages = REF_DATABASE_ROOT
+            .child(NODE_MESSAGES)
             .child(CURRENT_UID)
             .child(contact.id)
 
         mRecycleView.adapter = mAdapter
-        mMessagesListener = AppValueEventListener { dataSnapshot ->
-            mListMessages = dataSnapshot.children.map { it.getCommonModel() }
-            mAdapter.setList(mListMessages)
-            mRecycleView.smoothScrollToPosition(mAdapter.itemCount)
+        mRecycleView.setHasFixedSize(true)
+        mRecycleView.isNestedScrollingEnabled = false
+        mRecycleView.layoutManager = mLayoutManager
+
+        mMessagesListener = AppChildEventListener {
+            val message = it.getCommonModel()
+
+            if (mSmoothScrollToPosition) {
+                mAdapter.addItemToBottom(message) {
+                    mRecycleView.smoothScrollToPosition(mAdapter.itemCount)
+                }
+            } else {
+                mAdapter.addItemToTop(message) {
+                    mSwipeRefreshLayout.isRefreshing = false
+                }
+            }
         }
 
-        mRefMessages.addValueEventListener(mMessagesListener)
+        mRefMessages.limitToLast(mCountMessages).addChildEventListener(mMessagesListener)
+
+        mRecycleView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (mIsScrolling && dy < 0 && mLayoutManager.findFirstVisibleItemPosition() <= 3) {
+                    updateData()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    mIsScrolling = true
+                }
+            }
+        })
+
+        mSwipeRefreshLayout.setOnRefreshListener { updateData() }
+    }
+
+    private fun updateData() {
+        mSmoothScrollToPosition = false
+        mIsScrolling = false
+        mCountMessages += 10
+        mRefMessages.removeEventListener(mMessagesListener)
+        mRefMessages.limitToLast(mCountMessages).addChildEventListener(mMessagesListener)
     }
 
     private fun initToolbar() {
@@ -59,6 +111,7 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
         mRefUser = REF_DATABASE_ROOT.child(NODE_USERS).child(contact.id)
         mRefUser.addValueEventListener(mListenerInfoToolbar)
         chat_btn_send_message.setOnClickListener {
+            mSmoothScrollToPosition = true
             val message = chat_input_message.text.toString()
             if (message.isEmpty()) {
                 showToast("Enter message")
