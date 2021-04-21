@@ -1,8 +1,8 @@
 package com.example.android_app.ui.fragments.register
 
 import androidx.fragment.app.Fragment
-import com.example.android_app.MainActivity
 import com.example.android_app.R
+import com.example.android_app.database.AUTH
 import com.example.android_app.utilits.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth

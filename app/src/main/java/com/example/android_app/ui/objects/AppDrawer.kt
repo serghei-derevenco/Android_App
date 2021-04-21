@@ -4,13 +4,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.android_app.R
 import com.example.android_app.ui.fragments.ContactsFragment
 import com.example.android_app.ui.fragments.SettingsFragment
 import com.example.android_app.utilits.APP_ACTIVITY
-import com.example.android_app.utilits.USER
+import com.example.android_app.database.USER
 import com.example.android_app.utilits.downloadAndSetImage
 import com.example.android_app.utilits.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.android_app.MainActivity
 import com.example.android_app.R
+import com.example.android_app.database.updatePhonesToDatabase
 import com.example.android_app.models.CommonModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_settings.*

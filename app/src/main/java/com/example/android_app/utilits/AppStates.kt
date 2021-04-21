@@ -1,5 +1,7 @@
 package com.example.android_app.utilits
 
+import com.example.android_app.database.*
+
 enum class AppStates(val state: String) {
     ONLINE("online"),
     OFFLINE("last seen recently"),

@@ -4,6 +4,9 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import com.example.android_app.database.AUTH
+import com.example.android_app.database.initFirebase
+import com.example.android_app.database.initUser
 import com.example.android_app.databinding.ActivityMainBinding
 import com.example.android_app.ui.fragments.MainFragment
 import com.example.android_app.ui.fragments.register.EnterPhoneNumberFragment

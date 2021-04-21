@@ -6,14 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_app.R
+import com.example.android_app.database.CURRENT_UID
 import com.example.android_app.models.CommonModel
 import com.example.android_app.utilits.*
 import kotlinx.android.synthetic.main.message_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 
@@ -73,12 +71,12 @@ class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder
         if (mListMessagesCache[position].from == CURRENT_UID) {
             holder.blocUserImageMessage.visibility = View.VISIBLE
             holder.blocReceivedImageMessage.visibility = View.GONE
-            holder.chatUserImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatUserImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatUserImageMessageTime.text = mListMessagesCache[position].timeStamp.toString().asTime()
         } else {
             holder.blocUserImageMessage.visibility = View.GONE
             holder.blocReceivedImageMessage.visibility = View.VISIBLE
-            holder.chatReceivedImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatReceivedImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatReceivedImageMessageTime.text = mListMessagesCache[position].timeStamp.toString().asTime()
         }
     }

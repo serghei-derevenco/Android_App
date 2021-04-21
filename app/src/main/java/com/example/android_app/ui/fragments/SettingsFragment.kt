@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.example.android_app.R
+import com.example.android_app.database.*
 import com.example.android_app.utilits.*
 import com.example.telegram.ui.fragments.ChangeUsernameFragment
 import com.theartofdev.edmodo.cropper.CropImage
@@ -67,7 +68,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE)
                 .child(CURRENT_UID)
 
-            putImageToStorage(uri, path) {
+            putFileToStorage(uri, path) {
                 getUrlFromStorage(path) {
                     putUrlToDatabase(it) {
                         settings_user_photo.downloadAndSetImage(it)

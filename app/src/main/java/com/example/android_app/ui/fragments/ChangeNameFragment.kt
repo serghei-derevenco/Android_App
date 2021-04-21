@@ -1,6 +1,8 @@
 package com.example.android_app.ui.fragments
 
 import com.example.android_app.R
+import com.example.android_app.database.USER
+import com.example.android_app.database.setNameToDtabase
 import com.example.android_app.utilits.*
 import kotlinx.android.synthetic.main.fragment_change_name.*
 
