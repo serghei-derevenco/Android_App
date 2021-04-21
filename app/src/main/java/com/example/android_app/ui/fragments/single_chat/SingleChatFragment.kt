@@ -16,6 +16,7 @@ import com.example.android_app.database.*
 import com.example.android_app.models.CommonModel
 import com.example.android_app.models.UserModel
 import com.example.android_app.ui.fragments.BaseFragment
+import com.example.android_app.ui.fragments.message_recycler_view.views.AppViewFactory
 import com.example.android_app.utilits.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -119,11 +120,11 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
             val message = it.getCommonModel()
 
             if (mSmoothScrollToPosition) {
-                mAdapter.addItemToBottom(message) {
+                mAdapter.addItemToBottom(AppViewFactory.getView(message)) {
                     mRecycleView.smoothScrollToPosition(mAdapter.itemCount)
                 }
             } else {
-                mAdapter.addItemToTop(message) {
+                mAdapter.addItemToTop(AppViewFactory.getView(message)) {
                     mSwipeRefreshLayout.isRefreshing = false
                 }
             }
