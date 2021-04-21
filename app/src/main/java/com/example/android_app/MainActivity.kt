@@ -8,8 +8,8 @@ import com.example.android_app.database.AUTH
 import com.example.android_app.database.initFirebase
 import com.example.android_app.database.initUser
 import com.example.android_app.databinding.ActivityMainBinding
-import com.example.android_app.ui.fragments.MainFragment
-import com.example.android_app.ui.fragments.register.EnterPhoneNumberFragment
+import com.example.android_app.ui.screens.MainFragment
+import com.example.android_app.ui.screens.register.EnterPhoneNumberFragment
 import com.example.android_app.ui.objects.AppDrawer
 import com.example.android_app.utilits.*
 import kotlinx.coroutines.CoroutineScope
@@ -66,10 +66,12 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (ContextCompat.checkSelfPermission(APP_ACTIVITY, READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(APP_ACTIVITY,
+                READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+        ) {
             initContacts()
         }
     }

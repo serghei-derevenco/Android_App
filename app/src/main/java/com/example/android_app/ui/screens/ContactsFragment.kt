@@ -1,4 +1,4 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_app.R
 import com.example.android_app.database.*
 import com.example.android_app.models.CommonModel
-import com.example.android_app.ui.fragments.single_chat.SingleChatFragment
+import com.example.android_app.ui.screens.single_chat.SingleChatFragment
 import com.example.android_app.utilits.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -21,11 +21,11 @@ import kotlinx.android.synthetic.main.fragment_contacts.*
 class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
 
     private lateinit var mRecycleView: RecyclerView
-    private lateinit var mAdapter: FirebaseRecyclerAdapter<CommonModel,ContactsHolder>
+    private lateinit var mAdapter: FirebaseRecyclerAdapter<CommonModel, ContactsHolder>
     private lateinit var mRefContacts: DatabaseReference
     private lateinit var mRefUsers: DatabaseReference
     private lateinit var mRefUsersListener: AppValueEventListener
-    private var mapListeners = HashMap<DatabaseReference,AppValueEventListener>()
+    private var mapListeners = HashMap<DatabaseReference, AppValueEventListener>()
 
     override fun onResume() {
         super.onResume()
@@ -41,16 +41,17 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
             .setQuery(mRefContacts, CommonModel::class.java)
             .build()
 
-        mAdapter = object: FirebaseRecyclerAdapter<CommonModel,ContactsHolder>(options) {
+        mAdapter = object : FirebaseRecyclerAdapter<CommonModel, ContactsHolder>(options) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.contact_item, parent, false)
                 return ContactsHolder(view)
             }
 
             override fun onBindViewHolder(
                 holder: ContactsHolder,
                 position: Int,
-                model: CommonModel
+                model: CommonModel,
             ) {
                 mRefUsers = REF_DATABASE_ROOT.child(NODE_USERS).child(model.id)
 
@@ -75,7 +76,7 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
         mAdapter.startListening()
     }
 
-    class ContactsHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ContactsHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.contact_fullname
         val status: TextView = view.contact_status
         val photo: CircleImageView = view.contact_photo

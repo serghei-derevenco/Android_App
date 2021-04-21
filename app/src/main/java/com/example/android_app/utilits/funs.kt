@@ -41,10 +41,10 @@ fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
     }
 }
 
-fun hideKeyboard(){
+fun hideKeyboard() {
     val imm: InputMethodManager = APP_ACTIVITY.getSystemService(Context.INPUT_METHOD_SERVICE)
             as InputMethodManager
-    imm.hideSoftInputFromWindow(APP_ACTIVITY.window.decorView.windowToken,0)
+    imm.hideSoftInputFromWindow(APP_ACTIVITY.window.decorView.windowToken, 0)
 }
 
 fun ImageView.downloadAndSetImage(url: String) {
@@ -69,8 +69,10 @@ fun initContacts() {
         )
         cursor?.let {
             while (it.moveToNext()) {
-                val fullname = it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val phone = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val fullname =
+                    it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phone =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 val newModel = CommonModel()
                 newModel.fullname = fullname
                 newModel.phone = phone.replace(Regex("[\\s,-]"), "")

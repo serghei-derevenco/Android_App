@@ -7,6 +7,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#837E7E</color>
     <color name="colorGreen">#89D17D</color>
+    <color name="colorGreenDark">#2C4C26</color>
     <color name="colorBlueWish">#509FBD</color>
 
     <!-- Material DEFAULT colors -->

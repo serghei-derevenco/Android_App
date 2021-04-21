@@ -5,8 +5,8 @@ import com.example.android_app.models.CommonModel
 
 class DiffUtilCallback(
     private val oldList: List<CommonModel>,
-    private val newList: List<CommonModel>
-): DiffUtil.Callback() {
+    private val newList: List<CommonModel>,
+) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
 

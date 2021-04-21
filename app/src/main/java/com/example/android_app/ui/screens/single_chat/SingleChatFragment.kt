@@ -1,4 +1,4 @@
-package com.example.android_app.ui.fragments.single_chat
+package com.example.android_app.ui.screens.single_chat
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,8 +15,8 @@ import com.example.android_app.R
 import com.example.android_app.database.*
 import com.example.android_app.models.CommonModel
 import com.example.android_app.models.UserModel
-import com.example.android_app.ui.fragments.BaseFragment
-import com.example.android_app.ui.fragments.message_recycler_view.views.AppViewFactory
+import com.example.android_app.ui.screens.BaseFragment
+import com.example.android_app.ui.message_recycler_view.views.AppViewFactory
 import com.example.android_app.utilits.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -28,7 +28,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layout.fragment_single_chat) {
+class SingleChatFragment(private val contact: CommonModel) :
+    BaseFragment(R.layout.fragment_single_chat) {
 
     private lateinit var mListenerInfoToolbar: AppValueEventListener
     private lateinit var mReceivingUser: UserModel
@@ -78,7 +79,8 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         // TODO record
                         chat_input_message.setText("Recording...")
-                        chat_btn_voice.setColorFilter(ContextCompat.getColor(APP_ACTIVITY, R.color.primary))
+                        chat_btn_voice.setColorFilter(ContextCompat.getColor(APP_ACTIVITY,
+                            R.color.primary))
                         val messageKey = getMessageKey(contact.id)
                         mAppVoiceRecorder.startRecord(messageKey)
                     } else if (event.action == MotionEvent.ACTION_UP) {
@@ -86,7 +88,10 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
                         chat_input_message.setText("")
                         chat_btn_voice.colorFilter = null
                         mAppVoiceRecorder.stopRecord { file, messageKey ->
-                            uploadFileToStorage(Uri.fromFile(file), messageKey, contact.id, TYPE_MESSAGE_VOICE)
+                            uploadFileToStorage(Uri.fromFile(file),
+                                messageKey,
+                                contact.id,
+                                TYPE_MESSAGE_VOICE)
                             mSmoothScrollToPosition = true
                         }
                     }
@@ -132,7 +137,7 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
 
         mRefMessages.limitToLast(mCountMessages).addChildEventListener(mMessagesListener)
 
-        mRecycleView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+        mRecycleView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (mIsScrolling && dy < 0 && mLayoutManager.findFirstVisibleItemPosition() <= 3) {
@@ -192,7 +197,8 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
-            && resultCode == Activity.RESULT_OK && data != null){
+            && resultCode == Activity.RESULT_OK && data != null
+        ) {
             val uri = CropImage.getActivityResult(data).uri
             val messageKey = getMessageKey(contact.id)
             uploadFileToStorage(uri, messageKey, contact.id, TYPE_MESSAGE_IMAGE)
@@ -207,8 +213,9 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
         mRefMessages.removeEventListener(mMessagesListener)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         mAppVoiceRecorder.releaseRecorder()
+        mAdapter.onDestroy()
     }
 }

@@ -1,12 +1,6 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.android_app.MainActivity
-import com.example.android_app.R
 import com.example.android_app.utilits.APP_ACTIVITY
 
 

@@ -1,4 +1,4 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
 import com.example.android_app.R
 import com.example.android_app.database.USER

@@ -1,9 +1,8 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
 import com.example.android_app.R
 import com.example.android_app.database.USER
 import com.example.android_app.database.setBioToDatabase
-import com.example.android_app.utilits.*
 import kotlinx.android.synthetic.main.fragment_change_bio.*
 
 
