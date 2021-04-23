@@ -1,13 +1,9 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.fragments.register
 
 import androidx.fragment.app.Fragment
 import com.example.android_app.MainActivity
 import com.example.android_app.R
-import com.example.android_app.activities.RegisterActivity
-import com.example.android_app.utilits.AUTH
-import com.example.android_app.utilits.replaceActivity
-import com.example.android_app.utilits.replaceFragment
-import com.example.android_app.utilits.showToast
+import com.example.android_app.utilits.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -29,7 +25,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
                 AUTH.signInWithCredential(credential).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         showToast("Welcome")
-                        (activity as RegisterActivity).replaceActivity(MainActivity())
+                        restartActivity()
                     } else {
                         showToast(task.exception?.message.toString())
                     }
@@ -61,7 +57,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             mPhoneNumber,
             60,
             TimeUnit.SECONDS,
-            activity as RegisterActivity,
+            APP_ACTIVITY,
             mCallback
         )
     }
