@@ -1,4 +1,4 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.example.android_app.R
+import com.example.android_app.database.*
 import com.example.android_app.utilits.*
 import com.example.telegram.ui.fragments.ChangeUsernameFragment
 import com.theartofdev.edmodo.cropper.CropImage
@@ -37,7 +38,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private fun changePhotoUser() {
         CropImage.activity()
             .setAspectRatio(1, 1)
-            .setRequestedSize(600, 600)
+            .setRequestedSize(250, 250)
             .setCropShape(CropImageView.CropShape.OVAL)
             .start(APP_ACTIVITY, this)
     }
@@ -62,12 +63,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
-            && resultCode == RESULT_OK && data != null){
+            && resultCode == RESULT_OK && data != null
+        ) {
             val uri = CropImage.getActivityResult(data).uri
             val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE)
                 .child(CURRENT_UID)
 
-            putImageToStorage(uri, path) {
+            putFileToStorage(uri, path) {
                 getUrlFromStorage(path) {
                     putUrlToDatabase(it) {
                         settings_user_photo.downloadAndSetImage(it)

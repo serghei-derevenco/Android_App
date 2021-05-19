@@ -1,13 +1,11 @@
 package com.example.telegram.ui.fragments
 
 import com.example.android_app.R
-import com.example.android_app.ui.fragments.BaseChangeFragment
+import com.example.android_app.database.*
+import com.example.android_app.ui.screens.BaseChangeFragment
 import com.example.android_app.utilits.AppValueEventListener
-import com.example.android_app.utilits.REF_DATABASE_ROOT
-import com.example.android_app.utilits.USER
 import com.example.android_app.utilits.showToast
 
-import com.example.android_app.utilits.*
 import kotlinx.android.synthetic.main.fragment_change_username.*
 import java.util.*
 
@@ -22,14 +20,14 @@ class ChangeUsernameFragment : BaseChangeFragment(R.layout.fragment_change_usern
 
     override fun change() {
         mNewUsername = settings_input_username.text.toString().toLowerCase(Locale.getDefault())
-        if (mNewUsername.isEmpty()){
+        if (mNewUsername.isEmpty()) {
             showToast("Field is empty")
         } else {
             REF_DATABASE_ROOT.child(NODE_USERNAMES)
-                .addListenerForSingleValueEvent(AppValueEventListener{
-                    if (it.hasChild(mNewUsername)){
+                .addListenerForSingleValueEvent(AppValueEventListener {
+                    if (it.hasChild(mNewUsername)) {
                         showToast("This user already exists")
-                    } else{
+                    } else {
                         changeUsername()
                     }
                 })
@@ -39,7 +37,7 @@ class ChangeUsernameFragment : BaseChangeFragment(R.layout.fragment_change_usern
     private fun changeUsername() {
         REF_DATABASE_ROOT.child(NODE_USERNAMES).child(mNewUsername).setValue(CURRENT_UID)
             .addOnCompleteListener {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     updateCurrentUsername(mNewUsername)
                 }
             }

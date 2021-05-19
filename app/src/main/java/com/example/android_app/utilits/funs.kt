@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.android_app.MainActivity
 import com.example.android_app.R
+import com.example.android_app.database.updatePhonesToDatabase
 import com.example.android_app.models.CommonModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -40,10 +41,10 @@ fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
     }
 }
 
-fun hideKeyboard(){
+fun hideKeyboard() {
     val imm: InputMethodManager = APP_ACTIVITY.getSystemService(Context.INPUT_METHOD_SERVICE)
             as InputMethodManager
-    imm.hideSoftInputFromWindow(APP_ACTIVITY.window.decorView.windowToken,0)
+    imm.hideSoftInputFromWindow(APP_ACTIVITY.window.decorView.windowToken, 0)
 }
 
 fun ImageView.downloadAndSetImage(url: String) {
@@ -68,8 +69,10 @@ fun initContacts() {
         )
         cursor?.let {
             while (it.moveToNext()) {
-                val fullname = it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val phone = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val fullname =
+                    it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phone =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 val newModel = CommonModel()
                 newModel.fullname = fullname
                 newModel.phone = phone.replace(Regex("[\\s,-]"), "")

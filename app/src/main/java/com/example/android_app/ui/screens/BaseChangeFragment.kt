@@ -1,15 +1,13 @@
-package com.example.android_app.ui.fragments
+package com.example.android_app.ui.screens
 
-import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.example.android_app.MainActivity
 import com.example.android_app.R
 import com.example.android_app.utilits.APP_ACTIVITY
 import com.example.android_app.utilits.hideKeyboard
 
 
-open class BaseChangeFragment (layout: Int) : Fragment(layout) {
+open class BaseChangeFragment(layout: Int) : Fragment(layout) {
 
     override fun onStart() {
         super.onStart()
